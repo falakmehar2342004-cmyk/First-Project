@@ -17,7 +17,7 @@ const claim = (el) => (el.dataset.mDone = "1");
 const claimed = (el) => !!el.closest("[data-m-done]");
 const CLEAR = "transform,opacity,visibility,filter,clipPath";
 
-const trigger = (el, start = "top 86%") => ({
+const trigger = (el, start = "top 92%") => ({
   trigger: el,
   start,
   once: true,
@@ -27,8 +27,8 @@ const trigger = (el, start = "top 86%") => ({
 const rise = (targets, from, opts = {}, st = {}) =>
   gsap.from(targets, {
     autoAlpha: 0,
-    duration: 1.1,
-    ease: "power4.out",
+    duration: 0.7,
+    ease: "power3.out",
     clearProps: CLEAR,
     ...from,
     ...opts,
@@ -39,11 +39,11 @@ const rise = (targets, from, opts = {}, st = {}) =>
 const headingIn = (h, extra = {}, st = {}) =>
   gsap.fromTo(
     h,
-    { autoAlpha: 0, y: 64, skewY: 4, filter: "blur(12px)", clipPath: "inset(0 0 100% 0)" },
+    { autoAlpha: 0, y: 36, skewY: 2, filter: "blur(6px)", clipPath: "inset(0 0 100% 0)" },
     {
       autoAlpha: 1, y: 0, skewY: 0, filter: "blur(0px)",
       clipPath: "inset(-25% -6% -25% -6%)",
-      duration: 1.2, ease: "power4.out", clearProps: CLEAR,
+      duration: 0.8, ease: "power4.out", clearProps: CLEAR,
       ...extra,
       scrollTrigger: st.trigger === false ? undefined : trigger(h, st.start),
     }
@@ -52,10 +52,10 @@ const headingIn = (h, extra = {}, st = {}) =>
 /* Stagger variants: har group alag style mein aata hai */
 const VARIANTS = [
   () => ({ y: 80, scale: 0.96 }),
-  () => ({ y: 60, rotateX: -28, transformPerspective: 900, transformOrigin: "50% 0%" }),
-  () => ({ scale: 0.78, y: 40 }),
-  () => ({ x: (i) => (i % 2 ? 1 : -1) * 60 * dirX(), y: 20 }),
-  () => ({ y: 70, filter: "blur(10px)" }),
+  () => ({ y: 40, rotateX: -14, transformPerspective: 900, transformOrigin: "50% 0%" }),
+  () => ({ scale: 0.88, y: 40 }),
+  () => ({ x: (i) => (i % 2 ? 1 : -1) * 60 * dirX(), y: 14 }),
+  () => ({ y: 36, filter: "blur(6px)" }),
 ];
 
 /* ------------------------------------------------------------------ *
@@ -91,16 +91,16 @@ function hero(main) {
   // CSS orbit animation wale hisse ko GSAP se alag rakhte hain
   sec.querySelectorAll(".orbit-hero, [data-purpose='auregon-circles-container']").forEach(claim);
 
-  const tl = gsap.timeline({ defaults: { ease: "power4.out" }, delay: 0.1 });
+  const tl = gsap.timeline({ defaults: { ease: "power4.out" }, delay: 0 });
   if (badge && !badge.contains(h1)) tl.from(badge, { autoAlpha: 0, y: -30, scale: 0.8, duration: 0.8, ease: "back.out(2)", clearProps: CLEAR }, 0);
   if (h1) {
     tl.fromTo(h1,
       { autoAlpha: 0, y: 80, skewY: 5, filter: "blur(14px)", clipPath: "inset(0 0 100% 0)" },
-      { autoAlpha: 1, y: 0, skewY: 0, filter: "blur(0px)", clipPath: "inset(-25% -6% -25% -6%)", duration: 1.4, clearProps: "filter,clipPath,transform" });
+      { autoAlpha: 1, y: 0, skewY: 0, filter: "blur(0px)", clipPath: "inset(-25% -6% -25% -6%)", duration: 0.9, clearProps: "filter,clipPath,transform" });
   }
-  if (lead?.length) tl.from(lead, { autoAlpha: 0, y: 34, duration: 1, stagger: 0.12, clearProps: CLEAR }, "-=0.9");
-  if (buttons.length) tl.from(buttons, { autoAlpha: 0, y: 30, scale: 0.85, duration: 0.9, stagger: 0.14, ease: "back.out(1.8)", clearProps: CLEAR }, "-=0.7");
-  if (visual) tl.from(visual, { autoAlpha: 0, y: 90, scale: 0.9, rotateX: 10, transformPerspective: 1000, duration: 1.5, clearProps: CLEAR }, "-=1.1");
+  if (lead?.length) tl.from(lead, { autoAlpha: 0, y: 34, duration: 1, stagger: 0.08, clearProps: CLEAR }, "-=0.9");
+  if (buttons.length) tl.from(buttons, { autoAlpha: 0, y: 30, scale: 0.85, duration: 0.9, stagger: 0.08, ease: "back.out(1.8)", clearProps: CLEAR }, "-=0.7");
+  if (visual) tl.from(visual, { autoAlpha: 0, y: 50, scale: 0.9, rotateX: 10, transformPerspective: 1000, duration: 1, clearProps: CLEAR }, "-=1.1");
 
   // Scroll par hero ka content dheere upar jaye + fade ho
   const inner = [...sec.children].filter((c) => c !== visual && !isAbs(c) && !c.matches("canvas,[class*='aero-shards']") && h1 && c.contains(h1));
@@ -155,9 +155,9 @@ function groups(root) {
     gsap.from(kids, {
       ...(isSlider ? { x: 90 * dirX(), rotate: 2 } : v(kids.length, 0)),
       autoAlpha: 0,
-      duration: 1.05,
+      duration: 0.7,
       ease: n % 3 === 0 ? "back.out(1.5)" : "power4.out",
-      stagger: { each: 0.12, from: kids.length > 4 ? "edges" : "start" },
+      stagger: { each: 0.6, from: kids.length > 4 ? "edges" : "start" },
       clearProps: CLEAR,
       scrollTrigger: trigger(box, "top 86%"),
     });
@@ -188,7 +188,7 @@ function images(root) {
     gsap.fromTo(
       img,
       { clipPath: "inset(100% 0 0 0)", scale: 1.25, autoAlpha: 0.3 },
-      { clipPath: "inset(0% 0 0 0)", scale: 1, autoAlpha: 1, duration: 1.5, ease: "power4.inOut", clearProps: CLEAR, scrollTrigger: trigger(img, "top 88%") }
+      { clipPath: "inset(0% 0 0 0)", scale: 1, autoAlpha: 1, duration: 1.0, ease: "power4.inOut", clearProps: CLEAR, scrollTrigger: trigger(img, "top 88%") }
     );
   });
 }
@@ -367,7 +367,7 @@ function blocks(root) {
       const from = narrow
         ? { x: (i % 2 ? 1 : -1) * 70 * dirX(), y: 30 }
         : [{ y: 70 }, { y: 50, scale: 0.94 }, { y: 60, rotateX: -8, transformPerspective: 900, transformOrigin: "50% 0%" }][i % 3];
-      rise(c, from, { duration: 1.1 }, { start: "top 90%" });
+      rise(c, from, { duration: 0.7 }, { start: "top 90%" });
     });
   };
   secs.forEach((sec) => walk(sec, 0));
@@ -385,7 +385,7 @@ function contactForm(root) {
     const left = grid ? [...grid.children].find((c) => c !== col) : null;
     if (left) {
       const items = [...left.children].filter((c) => !isAbs(c));
-      gsap.from(items, { autoAlpha: 0, x: -60 * dirX(), duration: 1, stagger: 0.14, ease: "power4.out", clearProps: CLEAR, scrollTrigger: trigger(left, "top 85%") });
+      gsap.from(items, { autoAlpha: 0, x: -60 * dirX(), duration: 0.6, stagger: 0.07, ease: "power4.out", clearProps: CLEAR, scrollTrigger: trigger(left, "top 85%") });
       items.forEach(claim);
     }
     claim(card);
@@ -487,7 +487,7 @@ function sectionSweep(main) {
     const box = [...sec.children].find((c) => !isAbs(c) && !c.dataset.mDone && !/^(SCRIPT|STYLE)$/.test(c.tagName));
     if (!box) return;
     gsap.from(box, {
-      autoAlpha: 0, y: 56, duration: 1.1, ease: "power3.out", clearProps: CLEAR,
+      autoAlpha: 0, y: 30, duration: 0.7, ease: "power3.out", clearProps: CLEAR,
       scrollTrigger: { trigger: sec, start: "top 90%", once: true },
     });
   });

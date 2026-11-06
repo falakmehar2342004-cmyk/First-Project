@@ -56,7 +56,7 @@ function setOpen(item, open) {
     gsap.fromTo(
       body,
       { height: 0, opacity: 0, overflow: "hidden" },
-      { height: "auto", opacity: 1, duration: 0.75, ease: "power3.out", clearProps: "height,opacity,overflow" }
+      { height: "auto", opacity: 1, duration: 0.5, ease: "power3.out", clearProps: "height,opacity,overflow" }
     );
     // andar ka content bhi halka sa upar aaye
     gsap.from(body.children, { y: 24, opacity: 0, duration: 0.7, stagger: 0.08, delay: 0.1, ease: "power3.out", clearProps: "transform,opacity" });
@@ -94,7 +94,7 @@ export function scrollAccordion(items, { pinTarget, desktop }) {
     ScrollTrigger.create({
       trigger: target,
       start: () => `center center+=${navH / 2}`,
-      end: () => `+=${Math.round(items.length * window.innerHeight * 0.42)}`,
+      end: () => `+=${Math.round(items.length * window.innerHeight * 0.28)}`,
       pin: true,
       anticipatePin: 1,
       invalidateOnRefresh: true,

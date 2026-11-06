@@ -828,3 +828,49 @@ html[dir="rtl"] #site-footer li > a:hover { translate: -4px 0; }
 }
 html[dir="rtl"] #site-footer .grid.border-b::after { transform-origin: right center; background: linear-gradient(270deg, var(--brand-accent), transparent 70%); }
 .price-val { display: inline-block; }
+
+/* ===== COMPACT PASS ===== */
+
+/* Section ki upar/neeche padding */
+section[class*="py-12"], section[class*="py-16"], section[class*="py-20"],
+section[class*="py-24"], section[class*="py-28"], section[class*="py-space-xl"] {
+  padding-block: 3rem !important;
+}
+section[class*="pb-20"], section[class*="pb-28"] { padding-bottom: 3rem !important; }
+section[class*="pt-12"], section[class*="pt-16"] { padding-top: 2rem !important; }
+@media (min-width: 1024px) {
+  section[class*="py-12"], section[class*="py-16"], section[class*="py-20"],
+  section[class*="py-24"], section[class*="py-28"], section[class*="py-space-xl"] {
+    padding-block: 4rem !important;
+  }
+  section[class*="pb-20"], section[class*="pb-28"] { padding-bottom: 4rem !important; }
+}
+#site-footer { padding-top: 3.25rem !important; padding-bottom: 2rem !important; }
+
+/* Bade margins / gaps */
+main .mb-24 { margin-bottom: 3.5rem !important; }
+main .mb-20 { margin-bottom: 3rem !important; }
+main .mb-16 { margin-bottom: 2.25rem !important; }
+main .mb-14 { margin-bottom: 2rem !important; }
+main .mb-12 { margin-bottom: 1.75rem !important; }
+main .gap-16 { gap: 2.5rem !important; }
+main .gap-12 { gap: 2rem !important; }
+main .gap-10 { gap: 1.75rem !important; }
+main [class*="p-10"][class*="lg:p-16"] { padding: clamp(1.75rem, 4vw, 3.5rem) !important; } /* CTA box */
+
+/* Headings */
+main h1 { font-size: clamp(2.1rem, 4.2vw, 3.25rem) !important; line-height: 1.12 !important; }
+main h2:not([class*="text-xl"]) { font-size: clamp(1.65rem, 3vw, 2.4rem) !important; line-height: 1.2 !important; }
+main [data-gsap-hero-title] { font-size: clamp(2.75rem, 8.5vw, 6rem) !important; line-height: 1 !important; } /* Home ka bara "Creating Digital" */
+main h3[class*="text-2xl"], main h3[class*="text-3xl"] { font-size: 1.3rem !important; line-height: 1.3 !important; }
+
+/* Body / card text */
+main p[class*="text-xl"], main p[class*="text-lg"] { font-size: 1rem !important; line-height: 1.65 !important; }
+main [class*="text-[22px]"] { font-size: 19px !important; }
+main [class*="text-[18px]"] { font-size: 16px !important; }
+main [class*="text-[16px]"] { font-size: 15px !important; }
+
+/* Bade fixed-height images / cards */
+main [class*="h-[420px]"], main [class*="h-[440px]"], main [class*="h-[480px]"] { height: 340px !important; }
+main [class*="min-h-[440px]"], main [class*="min-h-[480px]"] { min-height: 360px !important; }
+main [class*="h-[350px]"], main [class*="h-[360px]"] { height: 300px !important; }

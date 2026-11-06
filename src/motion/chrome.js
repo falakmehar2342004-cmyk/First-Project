@@ -34,7 +34,7 @@ export function navbar() {
     // upar se aate hain: Home pehle, phir baqi
     tl.from(
       links,
-      { y: -46, autoAlpha: 0, rotateX: -60, transformPerspective: 600, duration: 0.85, stagger: 0.09, ease: "back.out(1.7)", clearProps: CLEAR },
+      { y: -46, autoAlpha: 0, rotateX: -60, transformPerspective: 600, duration: 0.85, stagger: 0.05, ease: "back.out(1.4)", clearProps: CLEAR },
       0.3
     );
   }
@@ -76,7 +76,7 @@ export function footerMotion(foot) {
     const items = [...col.children].flatMap((c) =>
       c.tagName === "UL" || c.classList.contains("space-y-3") ? [...c.children] : [c]
     );
-    tl.from(items, { autoAlpha: 0, y: 46, duration: 0.95, stagger: 0.07, clearProps: CLEAR }, 0.2 + i * 0.13);
+    tl.from(items, { autoAlpha: 0, y: 46, duration: 0.95, stagger: 0.04, clearProps: CLEAR }, 0.1 + i * 0.07);
   });
 
   if (grid) {

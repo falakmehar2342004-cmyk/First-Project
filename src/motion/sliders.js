@@ -92,7 +92,7 @@ export function horizontalSliders(root, { navH = 0, pin = true } = {}) {
     const st = ScrollTrigger.create({
       trigger: target.el,
       start: () => (target.isSection ? `top top+=${navH}` : `center center+=${navH / 2}`),
-      end: () => `+=${Math.round(Math.max(window.innerHeight * 0.9, max() * 1.15))}`,
+      end: () => `+=${Math.round(Math.max(window.innerHeight * 0.6, max() * 0.8))}`,
       pin: true,
       anticipatePin: 1,
       invalidateOnRefresh: true,
@@ -174,7 +174,7 @@ export function featureSlider(root, { navH = 0, pin = true } = {}) {
     const st = ScrollTrigger.create({
       trigger: wrap,
       start: () => `center center+=${navH / 2}`,
-      end: () => `+=${Math.round(n * window.innerHeight * 0.5)}`,
+      end: () => `+=${Math.round(n * window.innerHeight * 0.32)}`,
       pin: true,
       anticipatePin: 1,
       invalidateOnRefresh: true,

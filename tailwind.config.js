@@ -179,7 +179,7 @@ export default {
         "label-md": [
                 "13px",
                 {
-                        "lineHeight": "18px",
+                        "lineHeight": "16px",
                         "letterSpacing": "0.01em",
                         "fontWeight": "600"
                 }

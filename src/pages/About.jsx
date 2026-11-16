@@ -24,7 +24,7 @@ export default function About() {
                 The Story Behind Customer Respect & Regional Precision
               </h1>
               <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl mx-auto">
-                nExMeg is built for businesses in Pakistan and Saudi Arabia that want to talk to their customers directly and with respect. We saw that small and mid-sized businesses get lost between many separate tools, so we brought everything into one clear platform.
+                nExMeg gives businesses in Pakistan and Saudi Arabia one clear platform to talk to customers directly and respectfully—without getting lost in scattered tools.
               </p>
             </div>
             <HeroCircles title="ABOUT" />

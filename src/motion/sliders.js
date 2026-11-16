@@ -162,8 +162,8 @@ export function featureSlider(root, { navH = 0, pin = true } = {}) {
     defaults: { ease: "power4.out" },
     scrollTrigger: { trigger: wrap, start: "top 86%", once: true },
   });
-  intro.from(stage, { autoAlpha: 0, y: 90, scale: 0.92, rotateX: 8, transformPerspective: 1100, duration: 1.3, clearProps: CLEAR });
-  if (buttons.length) intro.from(buttons, { autoAlpha: 0, y: 34, duration: 0.8, stagger: 0.1, clearProps: CLEAR }, "-=0.7");
+  intro.from(stage, { autoAlpha: 0, y: 90, scale: 0.92, rotateX: 5, transformPerspective: 1100, duration: 0.9, clearProps: CLEAR });
+  if (buttons.length) intro.from(buttons, { autoAlpha: 0, y: 34, duration: 0.8, stagger: 0.06, clearProps: CLEAR }, "-=0.5");
 
   const cleanups = [() => { intro.scrollTrigger?.kill(); intro.kill(); delete wrap.dataset.mDone; }];
 

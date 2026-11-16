@@ -1,6 +1,121 @@
+import { useState } from "react";
 import code from "../page-behaviors.js?raw";
 import usePageScript from "../hooks/usePageScript.js";
 import AeroShards from "../components/ui/AeroShards.jsx";
+
+/**
+ * Home page ka aakhri "Articles" section.
+ * - Bara (featured) card + 3 chhote articles ki list.
+ * - Page ke theme ke rang use karta hai (--brand-*, --text-*), is liye dark mode khud chalta hai.
+ * - Pictures internet (Unsplash) se aati hain; har article ke img mein poora link likha hai, kisi bhi doosre link se badal sakte hain. Agar koi picture load na ho to us ki jagah
+ *   gradient dikhta hai (Photo component ka onError).
+ * - Article badalne ke liye sirf neeche ARTICLES array edit karein.
+ */
+const ARTICLES = [
+  {
+    category: "Compliance",
+    date: "Nov 12, 2026",
+    title: "Building an opt-in list the right way: PDPL and PTA rules explained",
+    img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
+    alt: "Team discussing customer consent around a table",
+    href: "#",
+  },
+  {
+    category: "WhatsApp",
+    date: "Nov 09, 2026",
+    title: "WhatsApp or SMS? How to pick the right channel for each message",
+    img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80",
+    alt: "Person using messaging app on a phone",
+    href: "#",
+  },
+  {
+    category: "SMS & Sender ID",
+    date: "Nov 04, 2026",
+    title: "Sender ID registration in Pakistan: what to prepare and how long it takes",
+    img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80",
+    alt: "Shop owner with a customer at the counter",
+    href: "#",
+  },
+  {
+    category: "Automation",
+    date: "Oct 28, 2026",
+    title: "Win back abandoned carts with 3 simple automated messages",
+    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+    alt: "Laptop showing sales analytics",
+    href: "#",
+  },
+];
+
+/** Picture; load na ho to gradient fallback. */
+function Photo({ src, alt, className }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return <div role="img" aria-label={alt} className={`${className} bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-accent)]`} />;
+  }
+  return <img src={src} alt={alt} loading="lazy" onError={() => setFailed(true)} className={`${className} object-cover`} />;
+}
+
+function Meta({ category, date, onDark }) {
+  return (
+    <div className="flex items-center gap-3 text-xs">
+      <span className={`px-3 py-1 rounded-full font-semibold ${onDark ? "bg-white text-[var(--brand-deep)]" : "bg-[var(--brand-soft)] text-[var(--brand-primary)]"}`}>{category}</span>
+      <span className={`font-medium ${onDark ? "text-white/80" : "text-[var(--text-muted)]"}`}>{date}</span>
+    </div>
+  );
+}
+
+function ArticlesSection() {
+  const [featured, ...rest] = ARTICLES;
+  return (
+    <section className="py-20 lg:py-28" data-purpose="blog" id="articles">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 mb-10 lg:mb-14 reveal-on-scroll">
+          <div>
+            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-[var(--text-muted)] mb-4">From the blog</p>
+            <h2 className="font-domine text-3xl md:text-5xl leading-tight text-[var(--text-primary)]">
+              Got questions? <br className="hidden md:block" />Our experts answer.
+            </h2>
+          </div>
+          <div className="flex flex-col items-start lg:items-start justify-between gap-6">
+            <p className="text-sm md:text-base text-[var(--text-secondary)] max-w-md font-domine leading-relaxed">
+              Practical tips and clear explanations from our team on WhatsApp, SMS and compliance in Pakistan and Saudi Arabia. Because informed businesses make better decisions.
+            </p>
+            <a href="#" className="group inline-flex items-stretch rounded-full overflow-hidden border border-[var(--brand-primary)] text-sm font-semibold">
+              <span className="px-5 py-2.5 text-[var(--text-primary)]">All articles</span>
+              <span className="px-4 flex items-center bg-[var(--brand-primary)] text-white group-hover:bg-[var(--brand-accent)] transition-colors" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 reveal-on-scroll">
+          <a href={featured.href} className="group block rounded-3xl bg-[var(--brand-primary)] p-3 sm:p-4">
+            <div className="overflow-hidden rounded-2xl">
+              <Photo src={featured.img} alt={featured.alt} className="w-full aspect-[4/3] group-hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="px-2 sm:px-3 pt-5 pb-3 space-y-3">
+              <Meta category={featured.category} date={featured.date} onDark />
+              <h3 className="font-domine text-xl sm:text-2xl leading-snug text-white">{featured.title}</h3>
+            </div>
+          </a>
+
+          <div className="flex flex-col gap-6 justify-between">
+            {rest.map((a) => (
+              <a key={a.title} href={a.href} className="group flex items-center gap-5">
+                <div className="shrink-0 w-32 sm:w-40 overflow-hidden rounded-2xl">
+                  <Photo src={a.img} alt={a.alt} className="w-full aspect-[4/3] sm:aspect-square group-hover:scale-105 transition-transform duration-700" />
+                </div>
+                <div className="space-y-2.5 min-w-0">
+                  <Meta category={a.category} date={a.date} />
+                  <h3 className="font-domine text-lg sm:text-xl leading-snug text-[var(--text-primary)] group-hover:text-[var(--brand-accent)] transition-colors">{a.title}</h3>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function Home() {
   usePageScript(code, "home");
@@ -1044,121 +1159,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="py-20 lg:py-28" data-purpose="blog" id="articles">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 reveal-on-scroll">
-            <div>
-              <span className="text-xs uppercase tracking-widest font-semibold text-[var(--brand-primary)] bg-[var(--brand-soft)] px-3.5 py-1 rounded-full border border-teal-200/50">
-                Blog
-              </span>
-              <h2 data-gsap-articles-title className="font-domine text-3xl md:text-5xl font-bold text-slate-900 mt-3">
-                Latest{" "}
-                <span className="italic font-domine text-[var(--brand-primary)]">
-                  articles
-                </span>
-              </h2>
-              <p className="text-slate-600 mt-2 text-base md:text-lg font-domine">
-                Practical marketing ideas for restaurants, retail and online brands in the region.
-              </p>
-            </div>
-            <a className="mt-4 md:mt-0 inline-flex items-center gap-1.5 text-sm font-bold text-[var(--brand-primary)] hover:text-[var(--brand-accent)] transition font-domine group" href="#blog">
-              <span>
-                View all posts
-              </span>
-              {" "}
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
-              </svg>
-            </a>
-          </div>
-          <div  data-gsap-article-cards className="grid grid-cols-1 md:grid-cols-3 gap-8 reveal-on-scroll">
-            <article data-gsap-article-card className="bg-white rounded-3xl p-8 border border-slate-200 hover:border-teal-500/40 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between group">
-              <div data-gsap-article-icon>
-                <div  className="h-10 w-10 rounded-xl bg-[var(--brand-soft)] text-[var(--brand-primary)] flex items-center justify-center font-bold text-xs mb-6 group-hover:bg-[var(--brand-primary)] group-hover:text-white transition-colors duration-300 font-domine shadow-sm">
-                  WA
-                </div>
-                <span className="text-xs uppercase font-bold tracking-wider text-[var(--brand-primary)] font-domine">
-                  Strategy
-                </span>
-                <h3 className="font-domine text-xl font-bold text-slate-900 mt-2 mb-3 leading-snug group-hover:text-[var(--brand-primary)] transition-colors">
-                  How to write a WhatsApp offer that gets replies
-                </h3>
-                <p className="text-slate-600 font-domine text-sm leading-relaxed mb-6">
-                  Learn the exact high-converting copy framework and CTA positioning used by leading hospitality brands.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium font-domine">
-                <span>
-                  5 min read
-                </span>
-                {" "}
-                <a className="inline-flex items-center gap-1 text-[var(--brand-primary)] font-bold group-hover:text-[var(--brand-accent)] transition-colors" href="#">
-                  Read more{" "}
-                  <span aria-hidden="true" className="group-hover:translate-x-1 transition-transform">
-                    →
-                  </span>
-                </a>
-              </div>
-            </article>
-            <article className="bg-white rounded-3xl p-8 border border-slate-200 hover:border-teal-500/40 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between group">
-              <div data-gsap-article-icon>
-                <div  className="h-10 w-10 rounded-xl bg-[var(--brand-soft)] text-[var(--brand-primary)] flex items-center justify-center font-bold text-xs mb-6 group-hover:bg-[var(--brand-primary)] group-hover:text-white transition-colors duration-300 font-domine shadow-sm">
-                  TIM
-                </div>
-                <span className="text-xs uppercase font-bold tracking-wider text-[var(--brand-primary)] font-domine">
-                  Regional Insights
-                </span>
-                <h3 className="font-domine text-xl font-bold text-slate-900 mt-2 mb-3 leading-snug group-hover:text-[var(--brand-primary)] transition-colors">
-                  Best times to send campaigns in Pakistan and KSA
-                </h3>
-                <p className="text-slate-600 font-domine text-sm leading-relaxed mb-6">
-                  Analysis of over 4 million broadcast messages across Karachi, Lahore, and Riyadh to reveal peak open windows.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium font-domine">
-                <span>
-                  7 min read
-                </span>
-                {" "}
-                <a className="inline-flex items-center gap-1 text-[var(--brand-primary)] font-bold group-hover:text-[var(--brand-accent)] transition-colors" href="#">
-                  Read more{" "}
-                  <span aria-hidden="true" className="group-hover:translate-x-1 transition-transform">
-                    →
-                  </span>
-                </a>
-              </div>
-            </article>
-            <article className="bg-white rounded-3xl p-8 border border-slate-200 hover:border-teal-500/40 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between group">
-              <div data-gsap-article-icon>
-                <div className="h-10 w-10 rounded-xl bg-[var(--brand-soft)] text-[var(--brand-primary)] flex items-center justify-center font-bold text-xs mb-6 group-hover:bg-[var(--brand-primary)] group-hover:text-white transition-colors duration-300 font-domine shadow-sm">
-                  LST
-                </div>
-                <span className="text-xs uppercase font-bold tracking-wider text-[var(--brand-primary)] font-domine">
-                  Compliance & Growth
-                </span>
-                <h3 className="font-domine text-xl font-bold text-slate-900 mt-2 mb-3 leading-snug group-hover:text-[var(--brand-primary)] transition-colors">
-                  Building an opt-in list the right way
-                </h3>
-                <p className="text-slate-600 font-domine text-sm leading-relaxed mb-6">
-                  Stay fully compliant with Saudi PDPL regulations and Pakistan telecom guidelines while multiplying verified buyers.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium font-domine">
-                <span>
-                  4 min read
-                </span>
-                {" "}
-                <a className="inline-flex items-center gap-1 text-[var(--brand-primary)] font-bold group-hover:text-[var(--brand-accent)] transition-colors" href="#">
-                  Read more{" "}
-                  <span aria-hidden="true" className="group-hover:translate-x-1 transition-transform">
-                    →
-                  </span>
-                </a>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
+      <ArticlesSection />
     </main>
   );
 }

@@ -34,7 +34,7 @@ export function navbar() {
     // upar se aate hain: Home pehle, phir baqi
     tl.from(
       links,
-      { y: -46, autoAlpha: 0, rotateX: -60, transformPerspective: 600, duration: 0.85, stagger: 0.05, ease: "back.out(1.4)", clearProps: CLEAR },
+      { y: -30, autoAlpha: 0, rotateX: -30, transformPerspective: 600, duration: 0.6, stagger: 0.05, ease: "back.out(1.4)", clearProps: CLEAR },
       0.3
     );
   }
@@ -60,15 +60,18 @@ export function footerMotion(foot) {
 
   const tl = gsap.timeline({
     defaults: { ease: "power4.out" },
-    scrollTrigger: { trigger: foot, start: "top 94%", once: true },
+    scrollTrigger: { trigger: foot, start: "top 98%", once: true },
   });
 
-  tl.fromTo(
-    foot,
-    { clipPath: "inset(10% 3% 0% 3% round 56px 56px 0px 0px)" },
-    { clipPath: "inset(0% 0% 0% 0% round 0px 0px 0px 0px)", duration: 1.3, clearProps: "clipPath" },
-    0
-  );
+  const lite = window.innerWidth < 768 || !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (!lite) {
+    tl.fromTo(
+      foot,
+      { clipPath: "inset(10% 3% 0% 3% round 56px 56px 0px 0px)" },
+      { clipPath: "inset(0% 0% 0% 0% round 0px 0px 0px 0px)", duration: 1.3, clearProps: "clipPath" },
+      0
+    );
+  }
 
   if (mark) tl.from(mark, { xPercent: 22 * dirX(), autoAlpha: 0, duration: 1.8, ease: "power3.out", clearProps: CLEAR }, 0.1);
 
@@ -76,7 +79,7 @@ export function footerMotion(foot) {
     const items = [...col.children].flatMap((c) =>
       c.tagName === "UL" || c.classList.contains("space-y-3") ? [...c.children] : [c]
     );
-    tl.from(items, { autoAlpha: 0, y: 46, duration: 0.95, stagger: 0.04, clearProps: CLEAR }, 0.1 + i * 0.07);
+    tl.from(items, { autoAlpha: 0, y: lite ? 22 : 46, duration: lite ? 0.55 : 0.95, stagger: 0.04, clearProps: CLEAR }, 0.1 + i * 0.07);
   });
 
   if (grid) {

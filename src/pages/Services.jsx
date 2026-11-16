@@ -1,5 +1,124 @@
+import { useRef, useState } from "react";
 import code from "../page-behaviors.js?raw";
 import usePageScript from "../hooks/usePageScript.js";
+
+/* AI Command Center: 2 cards ka chhota slider (arrows, dots, swipe)
+ * NOTE: dono slides hamesha DOM mein rehti hain (sirf translate hota hai),
+ * taake page-behaviors.js wale dialect tabs / regenerate button kaam karte rahein. */
+function CommandSlider() {
+  const [i, setI] = useState(0);
+  const startX = useRef(null);
+  const total = 2;
+  const go = (n) => setI(Math.max(0, Math.min(total - 1, n)));
+
+  const onDown = (e) => { startX.current = e.clientX; };
+  const onUp = (e) => {
+    if (startX.current === null) return;
+    const dx = e.clientX - startX.current;
+    startX.current = null;
+    if (Math.abs(dx) > 50) go(i + (dx < 0 ? 1 : -1));
+  };
+
+  return (
+    <div>
+      <div className="overflow-hidden rounded-2xl touch-pan-y" onPointerDown={onDown} onPointerUp={onUp} onPointerCancel={() => { startX.current = null; }}>
+        <div className="flex items-stretch transition-transform duration-500 ease-out" style={{ transform: `translateX(-${i * 100}%)` }}>
+
+          {/* Slide 1: AI Co-Pilot */}
+          <div className="w-full shrink-0 min-w-0" aria-hidden={i !== 0}>
+            <div className="h-full bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 shrink-0 rounded-xl bg-teal-100/80 border border-teal-200 flex items-center justify-center text-teal-800">
+                  <span className="material-symbols-outlined text-[22px]">auto_fix_high</span>
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-wider text-teal-800 font-bold">Generative Co-Pilot</div>
+                  <h3 className="text-[18px] leading-snug text-[var(--text-primary)] font-bold">Multi-Dialect Dispatch</h3>
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-1 bg-slate-100/80 p-1 rounded-lg text-xs font-semibold" id="dialect-tabs">
+                  <button className="dialect-tab-btn px-3 py-1 rounded-md bg-white text-teal-800 shadow-xs border border-slate-200/60 transition-all font-semibold" data-target="urdu" type="button">Urdu</button>
+                  <button className="dialect-tab-btn px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all" data-target="arabic" type="button">Arabic</button>
+                  <button className="dialect-tab-btn px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all" data-target="english" type="button">English</button>
+                </div>
+                <span className="text-xs font-mono font-bold text-teal-700 bg-teal-50 border border-teal-200/60 px-2.5 py-1 rounded-full" id="confidence-pill">99.4% Match</span>
+              </div>
+
+              <div className="mt-3 p-4 rounded-2xl rounded-tl-sm bg-teal-50 border border-teal-100 text-[13px] leading-relaxed text-slate-800 min-h-[96px] flex items-center" id="dialect-output-box">
+                “Assalam-o-Alaikum! Your favorite items are reserved in your cart. Tap below to confirm instant delivery before Maghrib prayers today.”
+              </div>
+
+              <div className="mt-3 flex items-center justify-between gap-2 text-xs">
+                <span className="flex items-center gap-1.5 text-slate-600">
+                  <span className="material-symbols-outlined text-[16px] text-teal-600">fingerprint</span>
+                  <span>Human approved</span>
+                </span>
+                <button className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-colors flex items-center gap-1" id="refresh-copy-btn" type="button">
+                  <span className="material-symbols-outlined text-[14px]">autorenew</span>
+                  <span>Regenerate</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Slide 2: Audience Hub */}
+          <div className="w-full shrink-0 min-w-0" aria-hidden={i !== 1}>
+            <div className="h-full bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 shrink-0 rounded-xl bg-cyan-100/80 border border-cyan-200 flex items-center justify-center text-cyan-800">
+                  <span className="material-symbols-outlined text-[22px]">hub</span>
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-wider text-teal-800 font-bold">Privacy &amp; Segments</div>
+                  <h3 className="text-[18px] leading-snug text-[var(--text-primary)] font-bold">Consent-First Audience Hub</h3>
+                </div>
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <div className="rounded-xl bg-[var(--surface-muted)] border border-slate-200/80 p-3.5">
+                  <div className="text-[22px] font-extrabold text-[var(--text-primary)] leading-none">1.42M</div>
+                  <div className="mt-1 text-[11px] text-slate-500 uppercase tracking-wider font-semibold">Contacts</div>
+                </div>
+                <div className="rounded-xl bg-[var(--surface-muted)] border border-slate-200/80 p-3.5">
+                  <div className="text-[22px] font-extrabold text-teal-700 leading-none">100%</div>
+                  <div className="mt-1 text-[11px] text-slate-500 uppercase tracking-wider font-semibold">PDPL audited</div>
+                </div>
+              </div>
+
+              <ul className="mt-3 divide-y divide-slate-100 text-[13px] text-slate-700 rounded-xl border border-slate-200/80 overflow-hidden">
+                <li className="flex items-center gap-2 px-3.5 py-2.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />VIP Spenders</li>
+                <li className="flex items-center gap-2 px-3.5 py-2.5"><span className="w-1.5 h-1.5 rounded-full bg-teal-500" />Cart Abandoners</li>
+                <li className="flex items-center gap-2 px-3.5 py-2.5"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Riyadh &amp; Jeddah Residents</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex items-center gap-2" role="tablist" aria-label="Slides">
+          {[0, 1].map((n) => (
+            <button key={n} type="button" onClick={() => go(n)} aria-label={`Slide ${n + 1}`} aria-selected={i === n}
+              className={`h-2 rounded-full transition-all duration-300 ${i === n ? "w-6 bg-teal-600" : "w-2 bg-slate-300 hover:bg-slate-400"}`} />
+          ))}
+        </div>
+        <div className="flex items-center gap-2">
+          <button type="button" onClick={() => go(i - 1)} disabled={i === 0} aria-label="Previous"
+            className="w-9 h-9 rounded-full border border-slate-200 bg-white text-slate-700 flex items-center justify-center hover:bg-slate-50 disabled:opacity-40 disabled:pointer-events-none transition">
+            <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+          </button>
+          <button type="button" onClick={() => go(i + 1)} disabled={i === total - 1} aria-label="Next"
+            className="w-9 h-9 rounded-full bg-teal-700 text-white flex items-center justify-center hover:bg-teal-800 disabled:opacity-40 disabled:pointer-events-none transition">
+            <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Services() {
   usePageScript(code, "services");
@@ -1032,274 +1151,49 @@ export default function Services() {
               </div>
             </div>
           </section>
-          <section className="relative w-full bg-white py-space-xl lg:py-28 border-b border-slate-100" id="ai-command-center">
-            <div className="max-w-7xl mx-auto px-gutter-desktop">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl">
+          <section className="relative w-full bg-[var(--surface-muted)] py-space-xl lg:py-28" id="ai-command-center">
+            <div className="max-w-6xl mx-auto px-gutter-desktop">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+                {/* Left: 3-image business collage */}
+                <div className="relative">
+                  <div className="relative rounded-xl overflow-hidden shadow-lg border border-slate-200/70 aspect-[16/10]">
+                    <img className="absolute inset-0 w-full h-full object-cover" alt="Retail business showroom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbUveA0GRdg-urGVoKxM9D6BzIPFJnAVx0kK094vTSzByxpAYOpYLaSAsX44ILGfGJjXOt7O-c_VEmj7Pld51xJuaej_fqzutZ27wHxFxY8LZlGRyPfHOPGOnxvucKqfenT4Q8hZeRKjXIYmVDWmSKjV68WflSQEwvwxgZuUMU3SJUBjUIa8lYsX1BksZz3uccw5myfEB7-gR_mLQQRQ6dl3nbpxqkBSkXxgGw8IQQ" loading="lazy" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/55 via-transparent to-transparent" />
+                    <div className="absolute left-3 bottom-3 sm:left-4 sm:bottom-4 flex flex-wrap gap-2">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur text-[11px] sm:text-[12px] font-semibold text-slate-800">
+                        <span className="material-symbols-outlined text-[15px] text-teal-600">verified</span>PTA &amp; PDPL compliant
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur text-[11px] sm:text-[12px] font-semibold text-slate-800">
+                        <span className="material-symbols-outlined text-[15px] text-teal-600">bolt</span>&lt;0.04s routing
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-3 sm:mt-4 ml-[12%] sm:ml-[15%] grid grid-cols-2 gap-3 sm:gap-4">
+                    <div className="relative rounded-xl overflow-hidden shadow-md border border-slate-200/70 aspect-[4/3]">
+                      <img className="absolute inset-0 w-full h-full object-cover" alt="Restaurant business" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxSDmxVRzlvEtTxDGpHSqA3_YS9-pU9rqVUhwkTGgrqtgv7nPQ5UZRba4uddk-BBy9Ha9lHRevXKZOcyzE2o-WKHb0UDrp9_NKc9GYLilaka-ikDK2f05CbppqOcf16i9DKDVcH0R-3_b9Jn9xiGjEYipyELcjmRSvixzebun8kxWczTOV03vwSAIBXfXMRaJdhtXwyle4DuZugLFfjRThLB09JVoZMHhUrUod7Tu9" loading="lazy" />
+                    </div>
+                    <div className="relative rounded-xl overflow-hidden shadow-md border border-slate-200/70 aspect-[4/3]">
+                      <img className="absolute inset-0 w-full h-full object-cover" alt="Logistics and delivery business" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2CDIIP7Cu1GUypDSNwvqLHMj3wq80tGnLcH7ZzDOWw32TjVpJvUUCEInKQzVQ5LL4ZAb64UOHfaBfXXqaffI-bfpZSVlybRtZ0V0Kd8GG2lmEs8e5eh5lNvj2alY4VX4xzv0NdfQ2_lX2F300H7cplGtzUJAfClXsmoW0u9pnTDCzO7vjT2Pdtpw2PMRlmP9dJ353qUKUjtCFhey4a7rBBq_5vREFDWgKTntkXHgW" loading="lazy" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: heading + slider */}
                 <div>
-                  <div className="inline-flex items-center gap-space-xs px-3 py-1 rounded-full bg-teal-50 border border-teal-200/80 text-teal-800 text-label-sm font-semibold tracking-wide uppercase mb-2">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200/80 text-teal-800 text-[11px] font-semibold tracking-wide uppercase mb-3">
                     <span className="w-2 h-2 rounded-full bg-teal-600 animate-pulse" />
-                    {" "}
-                    <span>
-                      Autonomous Intelligence Engine
-                    </span>
+                    <span>Autonomous Intelligence Engine</span>
                   </div>
-                  <h2 className="font-display-hero text-[34px] sm:text-[40px] lg:text-[44px] text-[var(--text-primary)] tracking-tight font-extrabold">
-                    AI Command Center & Audience Engine
+                  <h2 className="font-display-hero text-[30px] sm:text-[36px] text-[var(--text-primary)] tracking-tight font-extrabold">
+                    AI Command Center &amp; Audience Engine
                   </h2>
-                  <p className="mt-2 font-body-md text-body-md text-slate-600 max-w-2xl">
-                    Multi-lingual generative intelligence meets strict privacy compliance. Auto-cluster audiences, draft dialect-accurate broadcasts, and guarantee zero-rejection delivery.
+                  <p className="mt-3 mb-6 text-[15px] leading-relaxed text-slate-600">
+                    Dialect-accurate broadcasts and a consent-first audience, working together for your business.
                   </p>
+                  <CommandSlider />
                 </div>
-                <div className="flex items-center gap-4 bg-[var(--surface-muted)] border border-slate-200 rounded-xl p-3 shadow-sm self-start md:self-end">
-                  <div className="flex flex-col">
-                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                      AI Guardrails
-                    </span>
-                    {" "}
-                    <span className="text-[16px] font-bold text-teal-800 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[18px] text-teal-600">
-                        verified_user
-                      </span>
-                      {" "}100% PTA / PDPL
-                    </span>
-                  </div>
-                  <div className="w-px h-8 bg-slate-200" />
-                  <div className="flex flex-col">
-                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                      Dispatch Velocity
-                    </span>
-                    {" "}
-                    <span className="text-[16px] font-bold text-slate-900 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[18px] text-cyan-600">
-                        speed
-                      </span>
-                      {" "}&lt;0.04s Routing
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
-                <div className="lg:col-span-7 bg-gradient-to-br from-white via-[#fcfefe] to-[#f0fdfa]/60 border border-slate-200 hover:border-teal-300 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-sm hover:shadow-md transition-all relative overflow-hidden">
-                  <div className="pointer-events-none absolute -top-12 -right-12 w-64 h-64 bg-teal-200/25 rounded-full blur-3xl" />
-                  <div>
-                    <div className="flex items-center justify-between gap-space-sm mb-4">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-10 h-10 rounded-xl bg-teal-100/80 border border-teal-200 flex items-center justify-center text-teal-800 shadow-sm">
-                          <span className="material-symbols-outlined text-[22px]">
-                            auto_fix_high
-                          </span>
-                        </div>
-                        <div>
-                          <div className="font-label-sm text-[11px] uppercase tracking-wider text-teal-800 font-bold">
-                            Generative Co-Pilot
-                          </div>
-                          <h3 className="font-headline-md text-[22px] text-[var(--text-primary)] font-bold">
-                            Intelligent Multi-Dialect Dispatch
-                          </h3>
-                        </div>
-                      </div>
-                      <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-800 font-mono text-[12px] font-semibold">
-                        <span className="w-1.5 h-1.5 rounded-full bg-teal-600 animate-pulse" />
-                        {" "}Model: nExMeg-LLM 4.2
-                      </span>
-                    </div>
-                    <p className="font-body-md text-slate-600">
-                      AI automatically suggests ideal send time around prayer pauses and localized retail peaks, drafts colloquial phrasing in Roman Urdu, Nastaliq, or Gulf Arabic, and requires 100% human sign-off.
-                    </p>
-                    <div className="mt-6 bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm">
-                      <div className="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
-                        <div className="flex items-center gap-1.5 bg-slate-100/80 p-1 rounded-lg text-body-sm text-xs font-semibold" id="dialect-tabs">
-                          <button className="dialect-tab-btn px-3 py-1 rounded-md bg-white text-teal-800 shadow-xs border border-slate-200/60 transition-all font-semibold" data-target="urdu" type="button">
-                            Urdu & Roman Urdu
-                          </button>
-                          {" "}
-                          <button className="dialect-tab-btn px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all" data-target="arabic" type="button">
-                            Gulf Arabic (KSA)
-                          </button>
-                          {" "}
-                          <button className="dialect-tab-btn px-3 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all" data-target="english" type="button">
-                            English (Global)
-                          </button>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-xs text-slate-500">
-                            Confidence:
-                          </span>
-                          {" "}
-                          <span className="text-xs font-mono font-bold text-teal-700 bg-teal-50 border border-teal-200/60 px-2 py-0.5 rounded-full" id="confidence-pill">
-                            99.4% Match
-                          </span>
-                        </div>
-                      </div>
-                      <div className="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-100 font-body-sm text-[13px] leading-relaxed text-slate-800 min-h-[76px] flex items-center" id="dialect-output-box">
-                        “Assalam-o-Alaikum! Your favorite items are reserved in your cart. Tap below to confirm instant delivery before Maghrib prayers today.”
-                      </div>
-                      <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-label-sm text-xs">
-                        <div className="flex items-center gap-2 text-slate-600">
-                          <span className="material-symbols-outlined text-[18px] text-teal-600">
-                            fingerprint
-                          </span>
-                          {" "}
-                          <span>
-                            Human gatekeeper approval verified
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <button className="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-colors flex items-center gap-1" id="refresh-copy-btn" type="button">
-                            <span className="material-symbols-outlined text-[14px]">
-                              autorenew
-                            </span>
-                            {" "}
-                            <span>
-                              Regenerate Variant
-                            </span>
-                          </button>
-                          {" "}
-                          <span className="px-3 py-1 rounded-lg bg-teal-600 text-white font-semibold flex items-center gap-1 shadow-sm">
-                            <span className="material-symbols-outlined text-[14px]">
-                              check
-                            </span>
-                            {" "}
-                            <span>
-                              Ready to Send
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-6 flex flex-wrap items-center gap-2 pt-2">
-                    <span className="text-xs text-slate-500 font-semibold mr-1">
-                      Co-Pilot Capabilities:
-                    </span>
-                    {" "}
-                    <span className="text-xs bg-white border border-slate-200 text-slate-700 px-2.5 py-1 rounded-md font-medium">
-                      Automatic DLT Sender Verification
-                    </span>
-                    {" "}
-                    <span className="text-xs bg-white border border-slate-200 text-slate-700 px-2.5 py-1 rounded-md font-medium">
-                      Dynamic Send-Time Optimization
-                    </span>
-                    {" "}
-                    <span className="text-xs bg-teal-50 border border-teal-200 text-teal-800 px-2.5 py-1 rounded-md font-semibold">
-                      Zero Spam-Filter Hits
-                    </span>
-                  </div>
-                </div>
-                <div className="lg:col-span-5 bg-gradient-to-br from-white via-[#fcfefe] to-[#ecfeff]/50 border border-slate-200 hover:border-teal-300 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-sm hover:shadow-md transition-all relative overflow-hidden">
-                  <div className="pointer-events-none absolute -top-12 -right-12 w-64 h-64 bg-cyan-200/25 rounded-full blur-3xl" />
-                  <div>
-                    <div className="flex items-center gap-2.5 mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-cyan-100/80 border border-cyan-200 flex items-center justify-center text-cyan-800 shadow-sm">
-                        <span className="material-symbols-outlined text-[22px]">
-                          hub
-                        </span>
-                      </div>
-                      <div>
-                        <div className="font-label-sm text-[11px] uppercase tracking-wider text-teal-800 font-bold">
-                          Privacy & Segments
-                        </div>
-                        <h3 className="font-headline-md text-[22px] text-[var(--text-primary)] font-bold">
-                          Consent-First Audience Hub
-                        </h3>
-                      </div>
-                    </div>
-                    <p className="font-body-md text-slate-600">
-                      Automated customer tagging, verified timestamped consent records for Saudi PDPL & Pakistan PTA regulations, and one-tap in-store QR code acquisition.
-                    </p>
-                    <div className="mt-6 bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                      <div className="flex items-center justify-between pb-2 border-b border-slate-100 text-xs font-semibold text-slate-700">
-                        <span className="flex items-center gap-1 text-teal-800">
-                          <span className="material-symbols-outlined text-[16px] text-teal-600">
-                            filter_alt
-                          </span>
-                          {" "}Dynamic Segmentation Engine
-                        </span>
-                        {" "}
-                        <span className="text-slate-400 font-mono">
-                          1.42M Contacts
-                        </span>
-                      </div>
-                      <div className="mt-3 flex flex-wrap gap-1.5">
-                        <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-                          {" "}VIP Spenders (&gt;50k PKR / 1k SAR)
-                        </span>
-                        {" "}
-                        <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-teal-200 text-teal-800 border border-teal-200 font-medium">
-                          Cart Abandoners (Last 24h)
-                        </span>
-                        {" "}
-                        <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-teal-50 text-teal-800 border border-teal-200 font-medium">
-                          Riyadh & Jeddah Residents
-                        </span>
-                        {" "}
-                        <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-teal-200 text-teal-800 border border-teal-200 font-medium">
-                          Eid Repeat Buyers
-                        </span>
-                      </div>
-                      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0">
-                            <span className="material-symbols-outlined text-[20px]">
-                              qr_code_2
-                            </span>
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="text-xs font-bold text-slate-800">
-                              Store Checkout QR
-                            </span>
-                            {" "}
-                            <span className="text-[11px] text-slate-500">
-                              1-Tap WhatsApp Opt-in
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-col text-right">
-                          <span className="text-xs font-bold text-teal-700 flex items-center justify-end gap-1">
-                            <span className="material-symbols-outlined text-[14px] text-teal-600">
-                              verified
-                            </span>
-                            {" "}PDPL Audited
-                          </span>
-                          {" "}
-                          <span className="text-[11px] text-slate-400 font-mono">
-                            100% Cryptographic Opt-in
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-6 p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
-                    <span className="font-medium text-slate-700 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[16px] text-teal-600">
-                        alt_route
-                      </span>
-                      {" "}Direct Pipeline Flow:
-                    </span>
-                    <div className="flex items-center gap-2 text-slate-800 font-semibold font-mono text-[11px]">
-                      <span className="px-1.5 py-0.5 bg-white border border-slate-200 rounded">
-                        Audience
-                      </span>
-                      {" "}
-                      <span>
-                        →
-                      </span>
-                      {" "}
-                      <span className="px-1.5 py-0.5 bg-white border border-slate-200 rounded">
-                        AI Guard
-                      </span>
-                      {" "}
-                      <span>
-                        →
-                      </span>
-                      {" "}
-                      <span className="px-1.5 py-0.5 bg-teal-50 border border-teal-200 text-teal-800 rounded">
-                        WhatsApp & SMS
-                      </span>
-                    </div>
-                  </div>
-                </div>
+
               </div>
             </div>
           </section>

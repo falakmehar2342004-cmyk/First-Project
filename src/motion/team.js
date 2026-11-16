@@ -43,7 +43,14 @@ export function teamMotion(root) {
   }
 
   // ---- Cards ----
-  if (grid && cards.length) {
+  const lite = window.innerWidth < 768 || !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (grid && cards.length && lite) {
+    // Mobile: har card apni jagah aane par halka sa fade-up (3D / clip-path nahi)
+    cards.forEach((card) => {
+      const t = gsap.from(card, { autoAlpha: 0, y: 36, duration: 0.6, ease: "power3.out", clearProps: CLEAR, scrollTrigger: { trigger: card, start: "top 94%", once: true } });
+      tweens.push(t);
+    });
+  } else if (grid && cards.length) {
     const tl = gsap.timeline({
       defaults: { ease: "power4.out" },
       scrollTrigger: { trigger: grid, start: "top 84%", once: true },

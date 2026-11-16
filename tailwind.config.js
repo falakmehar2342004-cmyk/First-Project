@@ -35,6 +35,34 @@ export default {
   theme: {
     extend: {
       colors: {
+        // ---- Business Portal theme (CSS variables: src/portal/theme/portal-theme.css) ----
+        portal: {
+          "brand": "rgb(var(--p-brand) / <alpha-value>)",
+          "brand-deep": "rgb(var(--p-brand-deep) / <alpha-value>)",
+          "brand-deeper": "rgb(var(--p-brand-deeper) / <alpha-value>)",
+          "brand-soft": "rgb(var(--p-brand-soft) / <alpha-value>)",
+          "mint": "rgb(var(--p-mint) / <alpha-value>)",
+          "mint-2": "rgb(var(--p-mint-2) / <alpha-value>)",
+          "success": "rgb(var(--p-success) / <alpha-value>)",
+          "success-soft": "rgb(var(--p-success-soft) / <alpha-value>)",
+          "accent": "rgb(var(--p-accent) / <alpha-value>)",
+          "accent-hover": "rgb(var(--p-accent-hover) / <alpha-value>)",
+          "accent-soft": "rgb(var(--p-accent-soft) / <alpha-value>)",
+          "danger": "rgb(var(--p-danger) / <alpha-value>)",
+          "ink": "rgb(var(--p-ink) / <alpha-value>)",
+          "ink-soft": "rgb(var(--p-ink-soft) / <alpha-value>)",
+          "ink-muted": "rgb(var(--p-ink-muted) / <alpha-value>)",
+          "line": "rgb(var(--p-line) / <alpha-value>)",
+          "border": "rgb(var(--p-border) / <alpha-value>)",
+          "page": "rgb(var(--p-page) / <alpha-value>)",
+          "sidebar": "rgb(var(--p-sidebar) / <alpha-value>)",
+          "surface": "rgb(var(--p-surface) / <alpha-value>)",
+          "tint": "rgb(var(--p-tint) / <alpha-value>)",
+          "tint-2": "rgb(var(--p-tint-2) / <alpha-value>)",
+          "tint-3": "rgb(var(--p-tint-3) / <alpha-value>)",
+          "tint-4": "rgb(var(--p-tint-4) / <alpha-value>)",
+          "chat": "rgb(var(--p-chat) / <alpha-value>)",
+        },
         "ocean-deep": "#0d4a4d",
         "ocean-dark": "#082024",
         "ocean-darker": "#051619",
@@ -176,10 +204,23 @@ export default {
         ]
 },
       fontSize: {
+      // ---- Business Portal tokens (prefix jk-) ----
+      "jk-label-md": ["13px", {"lineHeight": "18px", "fontWeight": "600"}],
+      "jk-label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+      "jk-body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+      "jk-display-hero": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+      "jk-display-hero-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+      "jk-headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+      "jk-body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+      "jk-metric-stat": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+      "jk-headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+      "jk-body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+      "jk-headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+
         "label-md": [
                 "13px",
                 {
-                        "lineHeight": "16px",
+                        "lineHeight": "18px",
                         "letterSpacing": "0.01em",
                         "fontWeight": "600"
                 }

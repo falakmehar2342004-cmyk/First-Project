@@ -6,6 +6,11 @@ import { teamMotion } from "./team.js";
 import { horizontalSliders, featureSlider } from "./sliders.js";
 
 gsap.registerPlugin(ScrollTrigger);
+// Mobile par address-bar ke upar/neeche hone se ScrollTrigger baar baar refresh na ho (jhatke / glitch ki wajah)
+ScrollTrigger.config({ ignoreMobileResize: true });
+
+// LITE mode: phone / tablet / touch par halki animations (no blur, no 3D, no clip-path, no parallax)
+const LITE = { on: false };
 
 /* ------------------------------------------------------------------ *
  *  Helpers
@@ -39,11 +44,15 @@ const rise = (targets, from, opts = {}, st = {}) =>
 const headingIn = (h, extra = {}, st = {}) =>
   gsap.fromTo(
     h,
-    { autoAlpha: 0, y: 36, skewY: 2, filter: "blur(6px)", clipPath: "inset(0 0 100% 0)" },
+    LITE.on
+      ? { autoAlpha: 0, y: 22 }
+      : { autoAlpha: 0, y: 36, skewY: 2, filter: "blur(6px)", clipPath: "inset(0 0 100% 0)" },
     {
-      autoAlpha: 1, y: 0, skewY: 0, filter: "blur(0px)",
-      clipPath: "inset(-25% -6% -25% -6%)",
-      duration: 0.8, ease: "power4.out", clearProps: CLEAR,
+      autoAlpha: 1, y: 0,
+      ...(LITE.on
+        ? { duration: 0.55, ease: "power3.out" }
+        : { skewY: 0, filter: "blur(0px)", clipPath: "inset(-25% -6% -25% -6%)", duration: 0.8, ease: "power4.out" }),
+      clearProps: CLEAR,
       ...extra,
       scrollTrigger: st.trigger === false ? undefined : trigger(h, st.start),
     }
@@ -51,10 +60,10 @@ const headingIn = (h, extra = {}, st = {}) =>
 
 /* Stagger variants: har group alag style mein aata hai */
 const VARIANTS = [
-  () => ({ y: 80, scale: 0.96 }),
-  () => ({ y: 40, rotateX: -14, transformPerspective: 900, transformOrigin: "50% 0%" }),
-  () => ({ scale: 0.88, y: 40 }),
-  () => ({ x: (i) => (i % 2 ? 1 : -1) * 60 * dirX(), y: 14 }),
+  () => ({ y: 40, scale: 0.97 }),
+  () => ({ y: 36, rotateX: -14, transformPerspective: 900, transformOrigin: "50% 0%" }),
+  () => ({ scale: 0.88, y: 24 }),
+  () => ({ x: (i) => (i % 2 ? 1 : -1) * 36 * dirX(), y: 14 }),
   () => ({ y: 36, filter: "blur(6px)" }),
 ];
 
@@ -94,17 +103,19 @@ function hero(main) {
   const tl = gsap.timeline({ defaults: { ease: "power4.out" }, delay: 0 });
   if (badge && !badge.contains(h1)) tl.from(badge, { autoAlpha: 0, y: -30, scale: 0.8, duration: 0.8, ease: "back.out(2)", clearProps: CLEAR }, 0);
   if (h1) {
-    tl.fromTo(h1,
-      { autoAlpha: 0, y: 80, skewY: 5, filter: "blur(14px)", clipPath: "inset(0 0 100% 0)" },
-      { autoAlpha: 1, y: 0, skewY: 0, filter: "blur(0px)", clipPath: "inset(-25% -6% -25% -6%)", duration: 0.9, clearProps: "filter,clipPath,transform" });
+    if (LITE.on) tl.from(h1, { autoAlpha: 0, y: 30, duration: 0.6, clearProps: CLEAR });
+    else
+      tl.fromTo(h1,
+        { autoAlpha: 0, y: 80, skewY: 5, filter: "blur(14px)", clipPath: "inset(0 0 100% 0)" },
+        { autoAlpha: 1, y: 0, skewY: 0, filter: "blur(0px)", clipPath: "inset(-25% -6% -25% -6%)", duration: 0.9, clearProps: "filter,clipPath,transform" });
   }
-  if (lead?.length) tl.from(lead, { autoAlpha: 0, y: 34, duration: 1, stagger: 0.08, clearProps: CLEAR }, "-=0.9");
-  if (buttons.length) tl.from(buttons, { autoAlpha: 0, y: 30, scale: 0.85, duration: 0.9, stagger: 0.08, ease: "back.out(1.8)", clearProps: CLEAR }, "-=0.7");
-  if (visual) tl.from(visual, { autoAlpha: 0, y: 50, scale: 0.9, rotateX: 10, transformPerspective: 1000, duration: 1, clearProps: CLEAR }, "-=1.1");
+  if (lead?.length) tl.from(lead, { autoAlpha: 0, y: 24, duration: 0.7, stagger: 0.08, clearProps: CLEAR }, "-=0.6");
+  if (buttons.length) tl.from(buttons, { autoAlpha: 0, y: 20, scale: 0.9, duration: 0.6, stagger: 0.08, ease: "back.out(1.4)", clearProps: CLEAR }, "-=0.5");
+  if (visual) tl.from(visual, LITE.on ? { autoAlpha: 0, y: 28, duration: 0.6, clearProps: CLEAR } : { autoAlpha: 0, y: 50, scale: 0.94, rotateX: 6, transformPerspective: 1000, duration: 1, clearProps: CLEAR }, "-=0.8");
 
   // Scroll par hero ka content dheere upar jaye + fade ho
   const inner = [...sec.children].filter((c) => c !== visual && !isAbs(c) && !c.matches("canvas,[class*='aero-shards']") && h1 && c.contains(h1));
-  if (inner.length) {
+  if (inner.length && !LITE.on) {
     gsap.to(inner, {
       yPercent: -9, autoAlpha: 0.25, ease: "none",
       scrollTrigger: { trigger: sec, start: "top top", end: "bottom top", scrub: true },
@@ -134,7 +145,7 @@ function headings(root) {
   root.querySelectorAll("h3").forEach((h) => {
     if (claimed(h)) return;
     claim(h);
-    rise(h, { y: 40, duration: 0.9 }, {}, { start: "top 90%" });
+    rise(h, { y: 24, duration: 0.6 }, {}, { start: "top 92%" });
   });
 }
 
@@ -150,14 +161,14 @@ function groups(root) {
     const avg = kids.reduce((a, k) => a + k.offsetHeight, 0) / kids.length;
     if (avg > window.innerHeight * 0.85 || avg < 20) return;
     claim(box);
-    const v = VARIANTS[n++ % VARIANTS.length];
+    const v = LITE.on ? () => ({ y: 26 }) : VARIANTS[n++ % VARIANTS.length];
     const isSlider = box.id === "compliance-slider-track" || box.id === "circular-slider";
     gsap.from(kids, {
-      ...(isSlider ? { x: 90 * dirX(), rotate: 2 } : v(kids.length, 0)),
+      ...(isSlider ? (LITE.on ? { x: 40 * dirX() } : { x: 90 * dirX(), rotate: 2 }) : v(kids.length, 0)),
       autoAlpha: 0,
-      duration: 0.7,
-      ease: n % 3 === 0 ? "back.out(1.5)" : "power4.out",
-      stagger: { each: 0.6, from: kids.length > 4 ? "edges" : "start" },
+      duration: LITE.on ? 0.55 : 0.7,
+      ease: n % 3 === 0 && !LITE.on ? "back.out(1.2)" : "power3.out",
+      stagger: { each: LITE.on ? 0.05 : 0.06, from: kids.length > 4 && !LITE.on ? "edges" : "start" },
       clearProps: CLEAR,
       scrollTrigger: trigger(box, "top 86%"),
     });
@@ -169,6 +180,7 @@ function showcases(root) {
   root.querySelectorAll("[data-gsap-showcase], .shadow-2xl.rounded-3xl, .shadow-2xl.rounded-2xl").forEach((el) => {
     if (claimed(el) || isAbs(el)) return;
     claim(el);
+    if (LITE.on) { rise(el, { y: 28, duration: 0.6 }); return; }
     gsap.fromTo(
       el,
       { y: 90, scale: 0.9, rotateX: 9, transformPerspective: 1100, transformOrigin: "50% 100%", autoAlpha: 0.2 },
@@ -185,16 +197,18 @@ function images(root) {
   root.querySelectorAll("img").forEach((img) => {
     if (claimed(img) || isAbs(img)) return;
     claim(img);
+    if (LITE.on) { rise(img, { scale: 1.06, duration: 0.7 }, {}, { start: "top 95%" }); return; }
     gsap.fromTo(
       img,
       { clipPath: "inset(100% 0 0 0)", scale: 1.25, autoAlpha: 0.3 },
-      { clipPath: "inset(0% 0 0 0)", scale: 1, autoAlpha: 1, duration: 1.0, ease: "power4.inOut", clearProps: CLEAR, scrollTrigger: trigger(img, "top 88%") }
+      { clipPath: "inset(0% 0 0 0)", scale: 1, autoAlpha: 1, duration: 1.0, ease: "power3.inOut", clearProps: CLEAR, scrollTrigger: trigger(img, "top 92%") }
     );
   });
 }
 
 /** 6) Dark sections: scroll par rounded card se full-width mein khulna */
 function darkSections(root) {
+  if (LITE.on) return;
   root.querySelectorAll("section[class*='bg-slate-900'], section[class*='bg-[var(--brand-deep)]']").forEach((sec) => {
     gsap.fromTo(
       sec,
@@ -209,6 +223,7 @@ function darkSections(root) {
 
 /** 7) Decorative blobs: parallax (alag alag speed) */
 function parallax(root) {
+  if (LITE.on) return;
   root.querySelectorAll("section").forEach((sec) => {
     sec.querySelectorAll(".pointer-events-none[class*='absolute'][class*='blur'], .pointer-events-none[class*='absolute'][class*='rounded-full']").forEach((el, i) => {
       if (hasAnimClass(el)) return;
@@ -321,7 +336,7 @@ function manual(root) {
     if (claimed(el)) return;
     const k = el.dataset.anim;
     claim(el);
-    if (map[k]) rise(el, { ...map[k], duration: 1.3 });
+    if (map[k]) rise(el, LITE.on ? { y: 28, duration: 0.6 } : { ...map[k], duration: 1.3 });
     else if (k === "reveal")
       gsap.fromTo(el, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.5, ease: "power4.inOut", clearProps: "clipPath", scrollTrigger: trigger(el) });
   });
@@ -364,10 +379,12 @@ function blocks(root) {
       claim(c);
       const narrow = c.offsetWidth < window.innerWidth * 0.62;
       const i = n++;
-      const from = narrow
+      const from = LITE.on
+        ? { y: 28 }
+        : narrow
         ? { x: (i % 2 ? 1 : -1) * 70 * dirX(), y: 30 }
         : [{ y: 70 }, { y: 50, scale: 0.94 }, { y: 60, rotateX: -8, transformPerspective: 900, transformOrigin: "50% 0%" }][i % 3];
-      rise(c, from, { duration: 0.7 }, { start: "top 90%" });
+      rise(c, from, { duration: LITE.on ? 0.55 : 0.7 }, { start: LITE.on ? "top 95%" : "top 92%" });
     });
   };
   secs.forEach((sec) => walk(sec, 0));
@@ -385,7 +402,7 @@ function contactForm(root) {
     const left = grid ? [...grid.children].find((c) => c !== col) : null;
     if (left) {
       const items = [...left.children].filter((c) => !isAbs(c));
-      gsap.from(items, { autoAlpha: 0, x: -60 * dirX(), duration: 0.6, stagger: 0.07, ease: "power4.out", clearProps: CLEAR, scrollTrigger: trigger(left, "top 85%") });
+      gsap.from(items, { autoAlpha: 0, x: -60 * dirX(), duration: 1, stagger: 0.08, ease: "power3.out", clearProps: CLEAR, scrollTrigger: trigger(left, "top 90%") });
       items.forEach(claim);
     }
     claim(card);
@@ -394,13 +411,13 @@ function contactForm(root) {
     const check = form.querySelector("input[type=checkbox]")?.closest(".flex");
     const submit = form.querySelector("button[type=submit], button:not([type])");
 
-    gsap.from(card, { autoAlpha: 0, y: 90, rotateX: -10, transformPerspective: 1100, transformOrigin: "50% 0%", duration: 1.3, ease: "power4.out", clearProps: CLEAR, scrollTrigger: trigger(card, "top 88%") });
+    gsap.from(card, LITE.on ? { autoAlpha: 0, y: 30, duration: 0.6, clearProps: CLEAR, scrollTrigger: trigger(card, "top 95%") } : { autoAlpha: 0, y: 90, rotateX: -10, transformPerspective: 1100, transformOrigin: "50% 0%", duration: 1.3, ease: "power4.out", clearProps: CLEAR, scrollTrigger: trigger(card, "top 88%") });
     const tl = gsap.timeline({ scrollTrigger: trigger(form, "top 82%"), defaults: { ease: "power4.out" } });
     if (head) tl.from(head.children, { autoAlpha: 0, y: 30, duration: 0.8, stagger: 0.1, clearProps: CLEAR });
-    tl.from(fields, {
-      autoAlpha: 0, y: 34, scaleX: 0.9, clipPath: "inset(0 50% 0 50% round 24px)",
-      duration: 0.95, stagger: 0.12, clearProps: CLEAR,
-    }, head ? "-=0.4" : 0);
+    tl.from(fields, LITE.on
+      ? { autoAlpha: 0, y: 16, duration: 0.4, stagger: 0.05, clearProps: CLEAR }
+      : { autoAlpha: 0, y: 34, scaleX: 0.9, clipPath: "inset(0 50% 0 50% round 24px)", duration: 0.6, stagger: 0.07, clearProps: CLEAR },
+    head ? "-=0.4" : 0);
     if (check) tl.from(check, { autoAlpha: 0, x: -30, duration: 0.7, clearProps: CLEAR }, "-=0.3");
     if (submit) tl.from(submit, { autoAlpha: 0, scale: 0.5, y: 20, duration: 1, ease: "elastic.out(1,0.6)", clearProps: CLEAR }, "-=0.3");
 
@@ -488,7 +505,7 @@ function sectionSweep(main) {
     if (!box) return;
     gsap.from(box, {
       autoAlpha: 0, y: 30, duration: 0.7, ease: "power3.out", clearProps: CLEAR,
-      scrollTrigger: { trigger: sec, start: "top 90%", once: true },
+      scrollTrigger: { trigger: sec, start: "top 92%", once: true },
     });
   });
 }
@@ -519,6 +536,7 @@ export function initMotion() {
     (ctx) => {
       const { desktop, fine, motion } = ctx.conditions;
       if (!motion) return undefined; // reduced-motion: kuch hide/animate nahi hota
+      LITE.on = !fine || window.innerWidth < 768; // phone / tablet / touch = halki animations
 
       const scope = [main, footer].filter(Boolean);
       const header = document.getElementById("main-header");

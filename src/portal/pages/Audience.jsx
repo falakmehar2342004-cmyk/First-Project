@@ -16,7 +16,9 @@ export default function Audience() {
               <span>
                 Audience &amp; Contacts
               </span>
-              
+              <span className="text-2xl">
+                👥
+              </span>
             </h1>
             <p className="text-teal-50 text-xs sm:text-sm mt-1 max-w-xl font-normal leading-relaxed">
               Manage verified customer profiles, behavioral segments, and multi-channel opt-ins across Pakistan.
@@ -62,8 +64,8 @@ export default function Audience() {
         <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
         <div className="absolute left-1/2 -top-12 w-64 h-64 bg-teal-300/10 rounded-full blur-3xl pointer-events-none" />
       </PageHero>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 mt-6">
-        <div className="bg-white rounded-xl p-6 border border-slate-200/80 shadow-sm flex items-center gap-3.5 hover:shadow-md transition">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center gap-3.5 hover:shadow-md transition">
           <div className="w-12 h-12 rounded-xl bg-teal-50 border border-teal-200/60 text-portal-brand-deep flex items-center justify-center flex-shrink-0 shadow-sm">
             <span className="material-symbols-outlined text-[24px]">
               group
@@ -156,7 +158,7 @@ export default function Audience() {
           </div>
         </div>
       </div>
-      <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm space-y-3 p-3.5 mb-4">
+      <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
           <div className="lg:col-span-5 relative">
             <span className="material-symbols-outlined text-slate-400 absolute left-3 top-2.5 text-lg">
@@ -365,7 +367,7 @@ export default function Audience() {
                   </span>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="bg-amber-50 text-amber-800 border border-amber-200/60 font-semibold px-2 py-0.5 rounded-full text-[10px]">
                       VIP Gold
                     </span>
@@ -376,7 +378,7 @@ export default function Audience() {
                   </div>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       {' '}WhatsApp Active
@@ -388,7 +390,7 @@ export default function Audience() {
                   </div>
                 </td>
                 <td className="py-3.5 px-4 text-right">
-                  <div className="flex items-center justify-end gap-1">
+                  <div className="flex flex-col items-end gap-1">
                     <button className="p-1.5 text-portal-brand-deep hover:bg-teal-50 rounded-lg transition" title="Direct WhatsApp">
                       <span className="material-symbols-outlined text-[18px]">
                         chat
@@ -444,7 +446,7 @@ export default function Audience() {
                   </span>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="bg-teal-50 text-teal-800 border border-teal-200/60 font-medium px-2 py-0.5 rounded-full text-[10px]">
                       Repeat Buyer
                     </span>
@@ -455,7 +457,7 @@ export default function Audience() {
                   </div>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       {' '}WhatsApp Active
@@ -467,7 +469,7 @@ export default function Audience() {
                   </div>
                 </td>
                 <td className="py-3.5 px-4 text-right">
-                  <div className="flex items-center justify-end gap-1">
+                  <div className="flex flex-col items-end gap-1">
                     <button className="p-1.5 text-portal-brand-deep hover:bg-teal-50 rounded-lg transition" title="Direct WhatsApp">
                       <span className="material-symbols-outlined text-[18px]">
                         chat
@@ -523,14 +525,14 @@ export default function Audience() {
                   </span>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="bg-rose-50 text-rose-800 border border-rose-200/60 font-medium px-2 py-0.5 rounded-full text-[10px]">
                       Cart Abandoner
                     </span>
                   </div>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       {' '}WhatsApp Active
@@ -538,7 +540,7 @@ export default function Audience() {
                   </div>
                 </td>
                 <td className="py-3.5 px-4 text-right">
-                  <div className="flex items-center justify-end gap-1">
+                  <div className="flex flex-col items-end gap-1">
                     <button className="p-1.5 text-portal-brand-deep hover:bg-teal-50 rounded-lg transition" title="Direct WhatsApp">
                       <span className="material-symbols-outlined text-[18px]">
                         chat
@@ -600,7 +602,7 @@ export default function Audience() {
                   </span>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="bg-amber-50 text-amber-800 border border-amber-200/60 font-semibold px-2 py-0.5 rounded-full text-[10px]">
                       VIP Gold
                     </span>
@@ -611,7 +613,7 @@ export default function Audience() {
                   </div>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       {' '}WhatsApp Active
@@ -623,7 +625,7 @@ export default function Audience() {
                   </div>
                 </td>
                 <td className="py-3.5 px-4 text-right">
-                  <div className="flex items-center justify-end gap-1">
+                  <div className="flex flex-col items-end gap-1">
                     <button className="p-1.5 text-portal-brand-deep hover:bg-teal-50 rounded-lg transition" title="Direct WhatsApp">
                       <span className="material-symbols-outlined text-[18px]">
                         chat
@@ -679,14 +681,14 @@ export default function Audience() {
                   </span>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="bg-blue-50 text-blue-800 border border-blue-200/60 font-medium px-2 py-0.5 rounded-full text-[10px]">
                       New Signup
                     </span>
                   </div>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       {' '}WhatsApp Active
@@ -694,7 +696,7 @@ export default function Audience() {
                   </div>
                 </td>
                 <td className="py-3.5 px-4 text-right">
-                  <div className="flex items-center justify-end gap-1">
+                  <div className="flex flex-col items-end gap-1">
                     <button className="p-1.5 text-portal-brand-deep hover:bg-teal-50 rounded-lg transition" title="Direct WhatsApp">
                       <span className="material-symbols-outlined text-[18px]">
                         chat
@@ -750,14 +752,14 @@ export default function Audience() {
                   </span>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="bg-emerald-50 text-emerald-800 border border-emerald-200/60 font-medium px-2 py-0.5 rounded-full text-[10px]">
                       Eid Shopper
                     </span>
                   </div>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       {' '}WhatsApp Active
@@ -769,7 +771,7 @@ export default function Audience() {
                   </div>
                 </td>
                 <td className="py-3.5 px-4 text-right">
-                  <div className="flex items-center justify-end gap-1">
+                  <div className="flex flex-col items-end gap-1">
                     <button className="p-1.5 text-portal-brand-deep hover:bg-teal-50 rounded-lg transition" title="Direct WhatsApp">
                       <span className="material-symbols-outlined text-[18px]">
                         chat
@@ -825,14 +827,14 @@ export default function Audience() {
                   </span>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full text-[10px]">
                       Organic
                     </span>
                   </div>
                 </td>
                 <td className="py-3.5 px-4">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex flex-col items-start gap-1">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                       {' '}Pending Opt-in
@@ -844,7 +846,7 @@ export default function Audience() {
                   </div>
                 </td>
                 <td className="py-3.5 px-4 text-right">
-                  <div className="flex items-center justify-end gap-1">
+                  <div className="flex flex-col items-end gap-1">
                     <button className="p-1.5 text-portal-brand-deep hover:bg-teal-50 rounded-lg transition" title="Direct WhatsApp">
                       <span className="material-symbols-outlined text-[18px]">
                         chat

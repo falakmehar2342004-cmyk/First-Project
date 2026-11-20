@@ -9,6 +9,12 @@
 import forms from "@tailwindcss/forms";
 import containerQueries from "@tailwindcss/container-queries";
 import plugin from "tailwindcss/plugin";
+import defaultTheme from "tailwindcss/defaultTheme";
+
+// Spacing (padding/margin/gap/width/height) ko --ps se scale kiya jata hai. --ps set na ho to 1 (yani koi farq nahi).
+const scaledSpacing = Object.fromEntries(
+  Object.entries(defaultTheme.spacing).map(([k, v]) => [k, v === "0px" || v === "1px" ? v : `calc(${v} * var(--ps, 1))`])
+);
 
 const palettes = {
   ":root, .theme-contact": {
@@ -33,6 +39,7 @@ export default {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
+    spacing: scaledSpacing,
     extend: {
       colors: {
         // ---- Business Portal theme (CSS variables: src/portal/theme/portal-theme.css) ----

@@ -52,11 +52,11 @@ export default function Sidebar({ area = "portal" }) {
     <>
       {mobileOpen && <div className="md:hidden fixed inset-0 z-50 bg-slate-900/45" onClick={closeMobile} aria-hidden="true" />}
       <aside id="main-sidebar" data-purpose="sidebar-navigation"
-        className={cx("sidebar-collapsed transition-all duration-300 ease-in-out bg-portal-sidebar border-r border-portal-border/80 flex flex-col justify-between shrink-0 min-h-screen p-3.5 z-[60] group select-none shadow-sm", expanded && "force-expanded", isAdmin && "md:sticky md:top-0 md:self-start md:h-screen")}>
-        <div>
+        className={cx("sidebar-collapsed transition-all duration-300 ease-in-out bg-portal-sidebar border-r border-portal-border/80 flex flex-col justify-between shrink-0 h-screen p-3.5 z-[60] group select-none shadow-sm", expanded && "force-expanded")}>
+        <div className="min-h-0 overflow-y-auto overflow-x-hidden scrollbar-none">
           <div className="flex items-center justify-between px-0 py-3 mb-6 relative">
             <div className="flex items-center gap-3 overflow-hidden cursor-pointer" onClick={onPin} title="Click to pin / toggle sidebar">
-              <div className="w-8 h-8 rounded-xl bg-portal-brand text-white flex items-center justify-center shadow-md shadow-portal-brand/20 shrink-0 group-hover:scale-105 transition-transform">
+              <div className="w-10 h-10 rounded-xl bg-portal-brand text-white flex items-center justify-center shadow-md shadow-portal-brand/20 shrink-0 group-hover:scale-105 transition-transform">
                 <span className="leading-none text-xl font-black">n</span>
               </div>
               <div className="sidebar-text">

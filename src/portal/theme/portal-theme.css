@@ -64,6 +64,23 @@
 
 .portal-root, .portal-root .font-sans { font-family: var(--p-font); }
 
+/* ---- Font weight control (sirf Portal + Admin) ----
+   Har Tailwind weight class ko ek step halka kiya gaya hai. Badalna ho to sirf neeche ke numbers edit karein.
+   (Loaded weights: 400, 500, 600, 700, 800.) Wapas pehle jaisa karne ke liye is poore block ko delete kar dein. */
+.portal-root {
+  --pw-black: 700;      /* pehle 900 */
+  --pw-extrabold: 700;  /* pehle 800 */
+  --pw-bold: 600;       /* pehle 700 */
+  --pw-semibold: 500;   /* pehle 600 */
+  --pw-medium: 500;     /* pehle 500 */
+}
+.portal-root .font-black { font-weight: var(--pw-black); }
+.portal-root .font-extrabold { font-weight: var(--pw-extrabold); }
+.portal-root .font-bold { font-weight: var(--pw-bold); }
+.portal-root .font-semibold { font-weight: var(--pw-semibold); }
+.portal-root .font-medium { font-weight: var(--pw-medium); }
+
+
 /* ---------- shared surfaces (React: <Card/>, <PageHero/>) ---------- */
 .portal-root .p-card {
   background: rgb(var(--p-surface)); border: 1px solid rgb(var(--p-border) / .8);
@@ -141,3 +158,47 @@
 .portal-root.dark .bg-white\/90:not([class*="dark:bg-"]) { background-color: rgb(var(--p-surface) / .9); }
 .portal-root.dark .bg-white\/80:not([class*="dark:bg-"]) { background-color: rgb(var(--p-surface) / .8); }
 .portal-root.dark .bg-white\/70:not([class*="dark:bg-"]) { background-color: rgb(var(--p-surface) / .7); }
+
+
+/* ---- Overall SIZE dials (Portal + Admin) ----
+   Font-size   : src/portal/layout/PortalLayout.jsx -> PORTAL_ROOT_FONT_SIZE (14px; chhota 13px)
+   Font-weight : upar wale --pw-* numbers
+   Padding/margin/gap (aur width/height): neeche --ps. 1 = pehle jaisa, 0.85 = 15% kam, 0.75 = 25% kam.
+   (tailwind.config.js mein spacing --ps se jura hai; Marketing site par asar nahi.) */
+.portal-root { --ps: 0.85; }
+
+/* ---- Tables: scrollbar ki jagah content neeche wali line mein aa jata hai ---- */
+.portal-root table { width: 100%; table-layout: auto; }
+.portal-root table th,
+.portal-root table td { white-space: normal; overflow-wrap: break-word; }
+.portal-root table td * { white-space: normal; }
+.portal-root table [class*="min-w-"] { min-width: 0; }
+
+/* ---- Layout: sidebar screen ki height par fixed rehti hai, sirf right wala content scroll hota hai ---- */
+.portal-root .scrollbar-none { scrollbar-width: none; }
+.portal-root .scrollbar-none::-webkit-scrollbar { display: none; }
+/* Content area ke andar ke blocks dabte nahi; jagah kam ho to area scroll hota hai */
+.portal-root [role="main"] > *,
+.portal-root [role="main"] > .contents > * { flex-shrink: 0; }
+
+/* ---- Sidebar: chhoti screen height par spacing kam, taake saare icons nazar aayein ----
+   (Heights badalni hon to 820px / 700px / 620px wale numbers edit karein.) */
+@media (min-width: 768px) and (max-height: 820px) {
+  .portal-root #main-sidebar { padding-top: .5rem; padding-bottom: .5rem; }
+  .portal-root #main-sidebar > div:first-child > div:first-child { margin-bottom: .25rem; padding-top: .25rem; padding-bottom: .25rem; }
+  .portal-root #main-sidebar nav > * + *,
+  .portal-root #main-sidebar .space-y-1 > * + * { margin-top: .125rem; }
+  .portal-root #main-sidebar a, .portal-root #main-sidebar button.has-tooltip { padding-top: .4rem; padding-bottom: .4rem; }
+  .portal-root #main-sidebar .mt-8, .portal-root #main-sidebar .mt-6 { margin-top: .5rem; }
+  .portal-root #main-sidebar .mb-2 { margin-bottom: .25rem; }
+  .portal-root #main-sidebar [data-purpose="account-quota-card"] { display: none; }
+}
+@media (min-width: 768px) and (max-height: 700px) {
+  .portal-root #main-sidebar a, .portal-root #main-sidebar button.has-tooltip { padding-top: .3rem; padding-bottom: .3rem; }
+  .portal-root #main-sidebar nav > * + *,
+  .portal-root #main-sidebar .space-y-1 > * + * { margin-top: 0; }
+  .portal-root #main-sidebar .mt-8, .portal-root #main-sidebar .mt-6 { margin-top: .25rem; }
+}
+@media (min-width: 768px) and (max-height: 620px) {
+  .portal-root #main-sidebar a, .portal-root #main-sidebar button.has-tooltip { padding-top: .7rem; padding-bottom: .7rem; }
+}

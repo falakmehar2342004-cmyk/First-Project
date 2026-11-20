@@ -56,7 +56,7 @@ export default function TenantDetail() {
     { key: "base", label: "Base / PRA 16% / Total", render: (i) => <div className="whitespace-nowrap"><p className="font-bold">{i.base}</p><p className="text-xs text-portal-ink-muted">{i.split}</p></div> },
     { key: "ref", label: "Payment Ref", render: (i) => <div><p className="font-mono text-xs font-bold">{i.ref}</p><p className="text-xs text-portal-ink-muted">{i.refSub}</p></div> },
     { key: "status", label: "Status", render: (i) => <Badge tone="success" dot>{i.status}</Badge> },
-    { key: "act", label: "Actions", render: (i) => <div className="flex gap-1">{[["download", "Download PDF"], ["qr_code_2", "FBR QR"], ["mail", "Email copy"]].map(([ic, tip]) => <button key={ic} type="button" title={tip} onClick={() => toast(`${tip}: ${i.id} (demo)`, "info")} className="p-1.5 rounded-lg hover:bg-portal-tint text-portal-ink-soft"><Icon name={ic} className="text-[18px]" /></button>)}</div> },
+    { key: "act", label: "Actions", render: (i) => <ul className="flex flex-col items-start gap-0.5">{[["download", "Download PDF"], ["qr_code_2", "FBR QR"], ["mail", "Email copy"]].map(([ic, tip]) => <li key={ic}><button type="button" onClick={() => toast(`${tip}: ${i.id} (demo)`, "info")} className="inline-flex items-center gap-1.5 px-1.5 py-1 rounded-lg hover:bg-portal-tint text-xs font-semibold text-portal-ink-soft"><Icon name={ic} className="text-[16px]" />{tip}</button></li>)}</ul> },
   ];
 
   return (

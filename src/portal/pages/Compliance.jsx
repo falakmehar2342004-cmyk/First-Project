@@ -299,7 +299,7 @@ export default function Compliance() {
                           </span>
                         </td>
                         <td className="py-4 px-4">
-                          <div className="flex items-center gap-1.5" title="Jazz, Zong, Telenor, Ufone Whitelisted">
+                          <div className="flex flex-col items-start gap-1" title="Jazz, Zong, Telenor, Ufone Whitelisted">
                             <span className="w-6 h-6 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center justify-center">
                               JZ
                             </span>
@@ -330,7 +330,7 @@ export default function Compliance() {
                           </span>
                         </td>
                         <td className="py-4 px-4 text-right">
-                          <div className="flex items-center justify-end gap-1">
+                          <div className="flex flex-col items-end gap-1">
                             <button className="p-1.5 rounded-lg text-portal-ink-soft hover:bg-portal-tint-2 hover:text-portal-brand-deep transition-colors" title="View PTA NOC Certificate" type="button">
                               <span className="material-symbols-outlined text-[18px]">
                                 verified
@@ -380,7 +380,7 @@ export default function Compliance() {
                           </span>
                         </td>
                         <td className="py-4 px-4 text-right">
-                          <div className="flex items-center justify-end gap-1">
+                          <div className="flex flex-col items-end gap-1">
                             <button className="p-1.5 rounded-lg text-portal-ink-soft hover:bg-portal-tint-2 hover:text-portal-brand-deep transition-colors" title="View PTA NOC Certificate" type="button">
                               <span className="material-symbols-outlined text-[18px]">
                                 verified
@@ -430,7 +430,7 @@ export default function Compliance() {
                           </span>
                         </td>
                         <td className="py-4 px-4 text-right">
-                          <div className="flex items-center justify-end gap-1">
+                          <div className="flex flex-col items-end gap-1">
                             <button className="p-1.5 rounded-lg text-portal-ink-soft hover:bg-portal-tint-2 hover:text-portal-brand-deep transition-colors" title="View PTA NOC Certificate" type="button">
                               <span className="material-symbols-outlined text-[18px]">
                                 verified
@@ -474,7 +474,7 @@ export default function Compliance() {
                           </span>
                         </td>
                         <td className="py-4 px-4 text-right">
-                          <div className="flex items-center justify-end gap-1">
+                          <div className="flex flex-col items-end gap-1">
                             <button className="px-2.5 py-1 rounded-lg bg-portal-tint hover:bg-portal-tint-2 text-portal-brand-deep text-jk-label-sm transition-colors" type="button">
                               Track NOC
                             </button>
